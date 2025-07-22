@@ -22,6 +22,7 @@ import tektonikal.customtotemparticles.config.YACLConfig;
 
 import java.awt.*;
 
+import static net.minecraft.SharedConstants.CHUNK_WIDTH;
 import static tektonikal.customtotemparticles.Utils.SafeRandom;
 import static tektonikal.customtotemparticles.Utils.rand;
 
@@ -324,7 +325,9 @@ public abstract class TotemParticleMixin extends AnimatedParticle {
             return YACLConfig.CONFIG.instance().lightLevel;
         } else {
             BlockPos blockPos = BlockPos.ofFloored(x, y, z);
-            return world.isChunkLoaded(blockPos) ? WorldRenderer.getLightmapCoordinates(world, blockPos) : 0;
+            int chunkX = blockPos.getX() / CHUNK_WIDTH;
+            int chunkZ = blockPos.getZ() / CHUNK_WIDTH;
+            return world.isChunkLoaded(chunkX, chunkZ) ? WorldRenderer.getLightmapCoordinates(world, blockPos) : 0;
         }
     }
 
